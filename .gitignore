@@ -1,0 +1,36 @@
+# Python
+backend/venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Environment variables
+.env
+*.db
+!backend/.env.example
+
+# Alembic
+backend/alembic/versions/*.pyc
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# Build folders
+dist/
+build/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Frontend env (keep .env.example)
+frontend/.env
+!frontend/.env.example
