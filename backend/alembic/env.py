@@ -14,6 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.core.config import settings
 from app.database.base import Base
 from app.models.user import User  # noqa: F401 - ensure models are imported
+from app.models.token import RefreshToken  # noqa: F401 - ensure models are imported
 
 # this is the Alembic Config object, which provides access to the values within the .ini file in use.
 config = context.config

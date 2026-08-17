@@ -74,6 +74,20 @@ The backend will be available at `http://localhost:8000`.
 - `GET /api/v1/health` - Health check (API + database status)
 - `GET /docs` - Swagger UI documentation
 
+### Authentication Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/v1/auth/register` | Register a new user (auto-login, returns token pair) |
+| `POST` | `/api/v1/auth/login` | Log in and receive an access + refresh token pair |
+| `POST` | `/api/v1/auth/refresh` | Rotate a refresh token and get a new token pair |
+| `POST` | `/api/v1/auth/logout` | Revoke the given refresh token |
+| `GET` | `/api/v1/auth/me` | Get the current authenticated user (requires Bearer token) |
+
+Authentication uses short-lived JWT access tokens (30 min) and long-lived, revocable
+opaque refresh tokens (7 days) that are rotated on every refresh. Only SHA-256 hashes of
+refresh tokens are stored in the database; raw tokens and plaintext passwords are never stored.
+
 ### Running Backend Tests
 
 ```bash
@@ -132,6 +146,10 @@ DATABASE_URL=postgresql://user:password@localhost:5432/fixmyresume
 | `APP_VERSION` | Application version | `0.1.0` |
 | `DEBUG` | Debug mode | `false` |
 | `CORS_ORIGINS` | Allowed CORS origins | `http://localhost:5173,http://127.0.0.1:5173` |
+| `SECRET_KEY` | JWT signing secret (use long random value in prod) | `change-me-in-production-with-a-long-random-string` |
+| `ALGORITHM` | JWT signing algorithm | `HS256` |
+| `ACCESS_TOKEN_EXPIRE_MINUTES` | Access token lifetime (minutes) | `30` |
+| `REFRESH_TOKEN_EXPIRE_DAYS` | Refresh token lifetime (days) | `7` |
 
 ### Frontend (`frontend/.env`)
 

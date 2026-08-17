@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getHealth } from '../api/health'
+import { useAuth } from '../context/AuthContext'
 import type { HealthResponse } from '../types'
 
 function Home() {
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
   const [health, setHealth] = useState<HealthResponse | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -19,6 +23,11 @@ function Home() {
       })
   }, [])
 
+  const handleLogout = async () => {
+    await logout()
+    navigate('/login', { replace: true })
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
       <div className="text-center">
@@ -27,7 +36,19 @@ function Home() {
           AI-powered resume analysis and job application tracking
         </p>
 
-        <div className="bg-white rounded-lg shadow-md p-6 max-w-md mx-auto">
+        <div className="bg-white rounded-lg shadow-md p-6 max-w-md mx-auto mb-4">
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-left">
+              <p className="text-lg font-semibold text-gray-800">{user?.name}</p>
+              <p className="text-sm text-gray-500">{user?.email}</p>
+            </div>
+            <button
+              onClick={handleLogout}
+              className="bg-gray-200 text-gray-700 font-medium rounded-md px-4 py-2 hover:bg-gray-300"
+            >
+              Logout
+            </button>
+          </div>
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Backend Status</h2>
 
           {loading && (
