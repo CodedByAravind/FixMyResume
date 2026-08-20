@@ -1,4 +1,4 @@
-# FixMyResume
+﻿# FixMyResume
 
 AI-powered resume analysis and job application tracking platform.
 
@@ -72,6 +72,12 @@ The backend will be available at `http://localhost:8000`.
 - `GET /` - Root endpoint
 - `GET /test-db` - Database connection test
 - `GET /api/v1/health` - Health check (API + database status)
+- `GET /api/v1/resumes` - List authenticated user's resumes
+- `POST /api/v1/resumes` - Create a resume
+- `GET /api/v1/resumes/{id}` - Get a resume (own only)
+- `PUT /api/v1/resumes/{id}` - Update a resume (own only)
+- `DELETE /api/v1/resumes/{id}` - Delete a resume (own only)
+- `POST/PUT/DELETE /api/v1/resumes/{id}/education|experience|projects|skills|certifications` - Manage resume sections
 - `GET /docs` - Swagger UI documentation
 
 ### Authentication Endpoints

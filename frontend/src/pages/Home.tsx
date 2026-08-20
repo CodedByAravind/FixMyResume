@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+﻿import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { getHealth } from '../api/health'
 import { useAuth } from '../context/AuthContext'
 import type { HealthResponse } from '../types'
@@ -49,6 +49,14 @@ function Home() {
               Logout
             </button>
           </div>
+
+          <Link
+            to="/resumes"
+            className="block bg-blue-600 text-white text-center font-medium rounded-md px-4 py-3 mb-4 hover:bg-blue-700"
+          >
+            My Resumes
+          </Link>
+
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Backend Status</h2>
 
           {loading && (

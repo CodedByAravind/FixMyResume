@@ -1,46 +1,9 @@
-import os
-import tempfile
-
-import pytest
+﻿import pytest
 from fastapi.testclient import TestClient
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 
-from app.database.base import Base
-from app.database.db import get_db
 from app.main import app
 
-# Use an isolated temporary SQLite database for tests so we never touch the
-# development database (fixmyresume.db).
-_tmp = tempfile.NamedTemporaryFile(delete=False)
-TEST_DB_PATH = _tmp.name
-_tmp.close()
-
-_test_engine = create_engine(f"sqlite:///{TEST_DB_PATH}", connect_args={"check_same_thread": False})
-Base.metadata.create_all(bind=_test_engine)
-
-_TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=_test_engine)
-
-
-def override_get_db():
-    db = _TestingSessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-app.dependency_overrides[get_db] = override_get_db
-
 client = TestClient(app)
-
-
-@pytest.fixture(autouse=True)
-def _clean_tables():
-    # Reset tables between tests so they are independent.
-    Base.metadata.drop_all(bind=_test_engine)
-    Base.metadata.create_all(bind=_test_engine)
-    yield
 
 
 @pytest.fixture()
@@ -52,7 +15,7 @@ def registered_user():
     }
 
 
-def test_register_success(registered_user):
+def test_register_success(registered_user, db_session):
     resp = client.post("/api/v1/auth/register", json=registered_user)
     assert resp.status_code == 201
     data = resp.json()
@@ -63,13 +26,12 @@ def test_register_success(registered_user):
     assert "password" not in data["user"]
 
     # Verify the password is stored as a bcrypt hash, not plaintext.
-    db = _TestingSessionLocal()
     from app.models.user import User
-    user = db.query(User).filter(User.email == "test@example.com").first()
+
+    user = db_session.query(User).filter(User.email == "test@example.com").first()
     assert user is not None
     assert user.password != "strongpassword"
     assert user.password.startswith("$2")
-    db.close()
 
 
 def test_register_duplicate_email(registered_user):
@@ -91,7 +53,7 @@ def test_register_short_password(registered_user):
 
 
 def test_register_oversized_password_returns_422(registered_user):
-    # 73 ASCII bytes -> exceeds bcrypt's 72-byte limit -> clean 422, not 500.
+    # 73 ASCII bytes -> exceeds bcrypt''s 72-byte limit -> clean 422, not 500.
     payload = {**registered_user, "password": "a" * 73}
     resp = client.post("/api/v1/auth/register", json=payload)
     assert resp.status_code == 422
@@ -106,15 +68,18 @@ def test_register_72_byte_password_succeeds(registered_user):
 
 def test_register_multibyte_password_byte_length(registered_user):
     # Use an emoji (4 UTF-8 bytes each). 18 emoji = 72 bytes -> allowed.
-    ok_payload = {**registered_user, "password": "z" * 8 + "😀" * 16}  # 8 + 64 = 72 bytes
+    ok_payload = {**registered_user, "password": "z" * 8 + "\U0001F600" * 16}  # 8 + 64 = 72 bytes
     resp = client.post("/api/v1/auth/register", json=ok_payload)
     assert resp.status_code == 201
 
     # 19 emoji = 76 bytes -> exceeds 72 -> 422.
-    too_long_payload = {**registered_user, "email": "multi2@example.com", "password": "z" * 8 + "😀" * 19}
+    too_long_payload = {
+        **registered_user,
+        "email": "multi2@example.com",
+        "password": "z" * 8 + "\U0001F600" * 19,
+    }
     resp = client.post("/api/v1/auth/register", json=too_long_payload)
     assert resp.status_code == 422
-
 
 
 def test_login_success(registered_user):
@@ -208,12 +173,3 @@ def test_logout_revokes_token(registered_user):
     # Refresh token must be revoked after logout.
     resp2 = client.post("/api/v1/auth/refresh", json={"refresh_token": refresh})
     assert resp2.status_code == 401
-
-
-@pytest.fixture(scope="session", autouse=True)
-def _cleanup():
-    yield
-    try:
-        os.unlink(TEST_DB_PATH)
-    except OSError:
-        pass
