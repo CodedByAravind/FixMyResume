@@ -78,6 +78,7 @@ The backend will be available at `http://localhost:8000`.
 - `PUT /api/v1/resumes/{id}` - Update a resume (own only)
 - `DELETE /api/v1/resumes/{id}` - Delete a resume (own only)
 - `POST/PUT/DELETE /api/v1/resumes/{id}/education|experience|projects|skills|certifications` - Manage resume sections
+- `POST /api/v1/resumes/{id}/analyze` - Analyze a resume against a job description (rule-based, provider-agnostic)
 - `GET /docs` - Swagger UI documentation
 
 ### Authentication Endpoints
