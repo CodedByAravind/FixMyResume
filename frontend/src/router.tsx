@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import ResumeDetail from './pages/ResumeDetail'
 import ResumeEditor from './pages/ResumeEditor'
+import Analysis from './pages/Analysis'
 import Resumes from './pages/Resumes'
 
 export const router = createBrowserRouter([
@@ -45,6 +46,14 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <ResumeDetail />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/resumes/:id/analyze',
+    element: (
+      <ProtectedRoute>
+        <Analysis />
       </ProtectedRoute>
     ),
   },

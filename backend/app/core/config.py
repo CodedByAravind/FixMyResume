@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
+    # Analysis
+    ANALYSIS_PROVIDER: str = "rule_based"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
