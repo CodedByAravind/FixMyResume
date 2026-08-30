@@ -21,6 +21,23 @@ from app.models.experience import ExperienceEntry  # noqa: F401
 from app.models.project import ProjectEntry  # noqa: F401
 from app.models.skill import Skill  # noqa: F401
 from app.models.certification import Certification  # noqa: F401
+from app.models.resume_version import ResumeVersion  # noqa: F401
+from app.models.version_source import (  # noqa: F401
+    VersionSourceProfile,
+    VersionSourceEducation,
+    VersionSourceExperience,
+    VersionSourceProject,
+    VersionSourceSkill,
+    VersionSourceCertification,
+)
+from app.models.version_tailored import (  # noqa: F401
+    VersionTailoredProfile,
+    VersionTailoredEducation,
+    VersionTailoredExperience,
+    VersionTailoredProject,
+    VersionTailoredSkill,
+    VersionTailoredCertification,
+)
 
 # this is the Alembic Config object, which provides access to the values within the .ini file in use.
 config = context.config

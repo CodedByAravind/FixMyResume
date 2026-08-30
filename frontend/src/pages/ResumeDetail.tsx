@@ -73,6 +73,12 @@ function ResumeDetail() {
               Edit
             </Link>
             <Link
+              to={`/resumes/${resume.id}/versions`}
+              className="bg-indigo-600 text-white rounded-md px-4 py-2 hover:bg-indigo-700"
+            >
+              Versions
+            </Link>
+            <Link
               to={`/resumes/${resume.id}/analyze`}
               className="bg-green-600 text-white rounded-md px-4 py-2 hover:bg-green-700"
             >
