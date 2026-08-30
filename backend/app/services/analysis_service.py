@@ -32,6 +32,19 @@ def analyze_resume(
     return provider.analyze(context, job_description)
 
 
+def analyze_context(
+    provider: AnalysisProvider,
+    context: ResumeContext,
+    job_description: str,
+) -> AnalysisResult:
+    """"Run a provider on an already-built ResumeContext.
+
+    Used by tailoring to re-score tailored content without duplicating the
+    analysis engine or the provider lookup. Same AnalysisResult contract.
+    """
+    return provider.analyze(context, job_description)
+
+
 def _build_resume_context(resume) -> ResumeContext:
     return ResumeContext(
         title=resume.title or "",

@@ -22,6 +22,7 @@ class Settings(BaseSettings):
 
     # Analysis
     ANALYSIS_PROVIDER: str = "rule_based"
+    TAILORING_PROVIDER: str = "rule_based"
 
     model_config = SettingsConfigDict(
         env_file=".env",

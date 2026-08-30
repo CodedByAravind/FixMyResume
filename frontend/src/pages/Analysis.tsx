@@ -92,7 +92,7 @@ function Analysis() {
           </div>
         </div>
 
-        {result && <AnalysisResults result={result} />}
+        {result && (<><AnalysisResults result={result} /><div className="mt-4 text-center"><Link to={`/resumes/${resume?.id}/tailor`} className="bg-green-600 text-white rounded-md px-5 py-2 hover:bg-green-700 inline-block">Tailor This Resume</Link></div></>)}
       </div>
     </div>
   )
