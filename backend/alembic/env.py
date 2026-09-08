@@ -22,6 +22,7 @@ from app.models.project import ProjectEntry  # noqa: F401
 from app.models.skill import Skill  # noqa: F401
 from app.models.certification import Certification  # noqa: F401
 from app.models.resume_version import ResumeVersion  # noqa: F401
+from app.models.application import JobApplication  # noqa: F401
 from app.models.version_source import (  # noqa: F401
     VersionSourceProfile,
     VersionSourceEducation,

@@ -84,6 +84,11 @@ The backend will be available at `http://localhost:8000`.
 - `GET /api/v1/resumes/{id}/versions/{vid}` - View a version
 - `GET /api/v1/resumes/{id}/versions/{vid}/compare` - Compare source vs tailored
 - `DELETE /api/v1/resumes/{id}/versions/{vid}` - Delete a version
+- `GET /api/v1/applications` - List applications (filter/search/sort)
+- `POST /api/v1/applications` - Create an application
+- `GET /api/v1/applications/{id}` - Get an application
+- `PUT /api/v1/applications/{id}` - Update an application
+- `DELETE /api/v1/applications/{id}` - Delete an application
 - `GET /docs` - Swagger UI documentation
 
 ### Authentication Endpoints

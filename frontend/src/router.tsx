@@ -6,6 +6,9 @@ import Register from './pages/Register'
 import ResumeDetail from './pages/ResumeDetail'
 import ResumeEditor from './pages/ResumeEditor'
 import Analysis from './pages/Analysis'
+import Applications from './pages/Applications'
+import ApplicationDetail from './pages/ApplicationDetail'
+import ApplicationForm from './pages/ApplicationForm'
 import Resumes from './pages/Resumes'
 import Tailor from './pages/Tailor'
 import VersionsList from './pages/VersionsList'
@@ -84,5 +87,17 @@ export const router = createBrowserRouter([
   {
     path: '/resumes/:id/versions/:versionId/compare',
     element: (<ProtectedRoute><VersionCompare /></ProtectedRoute>),
+  },
+  {
+    path: '/applications',
+    element: (<ProtectedRoute><Applications /></ProtectedRoute>),
+  },
+  {
+    path: '/applications/new',
+    element: (<ProtectedRoute><ApplicationForm /></ProtectedRoute>),
+  },
+  {
+    path: '/applications/:id',
+    element: (<ProtectedRoute><ApplicationDetail /></ProtectedRoute>),
   },
 ])

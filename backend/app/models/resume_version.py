@@ -35,3 +35,5 @@ class ResumeVersion(Base):
     tailored_projects = relationship("VersionTailoredProject", back_populates="version", cascade="all, delete-orphan", order_by="VersionTailoredProject.position")
     tailored_skills = relationship("VersionTailoredSkill", back_populates="version", cascade="all, delete-orphan", order_by="VersionTailoredSkill.position")
     tailored_certifications = relationship("VersionTailoredCertification", back_populates="version", cascade="all, delete-orphan", order_by="VersionTailoredCertification.position")
+
+    applications = relationship("JobApplication", back_populates="resume_version")

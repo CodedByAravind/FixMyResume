@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.models.resume import Resume
 from app.models.user import User
-from app.repositories import resume_repository
+from app.repositories import application_repository, resume_repository
 
 
 def _get_owned_resume_or_404(db: Session, resume_id: int, user_id: int) -> Resume:
@@ -42,4 +42,9 @@ def update_resume(db: Session, user: User, resume_id: int, payload) -> Resume:
 
 def delete_resume(db: Session, user: User, resume_id: int) -> None:
     resume = _get_owned_resume_or_404(db, resume_id, user.id)
+    if application_repository.count_for_resume(db, resume.id) > 0:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Cannot delete a resume that is referenced by job applications.",
+        )
     resume_repository.delete_resume(db, resume)

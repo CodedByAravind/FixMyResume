@@ -9,6 +9,7 @@ from app.models import version_tailored as tai
 from app.models.user import User
 from app.repositories import (
     analysis_repository,
+    application_repository,
     resume_version_repository,
 )
 from app.schemas.resume import CertificationOut, EducationOut, ExperienceOut, ProjectOut, SkillOut
@@ -187,7 +188,9 @@ def compare_version(db: Session, user: User, resume_id: int, version_id: int) ->
 
 
 def delete_version(db: Session, user: User, resume_id: int, version_id: int) -> None:
-    resume_version_repository.delete_version(db, _get_owned_version(db, user, resume_id, version_id))
+    version = _get_owned_version(db, user, resume_id, version_id)
+    application_repository.clear_version_references(db, version.id)
+    resume_version_repository.delete_version(db, version)
 
 
 # ---------- internal ----------
