@@ -56,6 +56,12 @@ function Home() {
           >
             My Resumes
           </Link>
+          <Link
+            to="/applications"
+            className="block bg-indigo-600 text-white text-center font-medium rounded-md px-4 py-3 mb-4 hover:bg-indigo-700"
+          >
+            Job Applications
+          </Link>
 
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Backend Status</h2>
 
