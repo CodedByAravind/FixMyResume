@@ -2,6 +2,7 @@
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.v1.analysis import router as analysis_router
+from app.api.v1.applications import router as applications_router
 from app.api.v1.auth import router as auth_router
 from app.api.v1.health import router as health_router
 from app.api.v1.resumes import router as resumes_router
@@ -27,6 +28,7 @@ app.add_middleware(
 app.include_router(health_router, prefix="/api/v1", tags=["health"])
 app.include_router(auth_router, prefix="/api/v1/auth", tags=["auth"])
 app.include_router(analysis_router, prefix="/api/v1", tags=["analysis"])
+app.include_router(applications_router, prefix="/api/v1", tags=["applications"])
 app.include_router(resumes_router, prefix="/api/v1", tags=["resumes"])
 app.include_router(resume_sections_router, prefix="/api/v1", tags=["resumes"])
 app.include_router(tailoring_router, prefix="/api/v1", tags=["tailoring"])

@@ -15,3 +15,4 @@ class User(Base):
     updated_at = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 
     resumes = relationship("Resume", back_populates="user", cascade="all, delete-orphan")
+    applications = relationship("JobApplication", back_populates="user")

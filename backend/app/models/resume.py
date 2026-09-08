@@ -27,3 +27,4 @@ class Resume(Base):
     projects = relationship("ProjectEntry", back_populates="resume", cascade="all, delete-orphan", order_by="ProjectEntry.position")
     skills = relationship("Skill", back_populates="resume", cascade="all, delete-orphan", order_by="Skill.position")
     certifications = relationship("Certification", back_populates="resume", cascade="all, delete-orphan", order_by="Certification.position")
+    applications = relationship("JobApplication", back_populates="resume")

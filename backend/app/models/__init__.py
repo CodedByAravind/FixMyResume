@@ -25,3 +25,4 @@ from app.models.version_tailored import (  # noqa: F401
     VersionTailoredSkill,
     VersionTailoredCertification,
 )
+from app.models.application import JobApplication  # noqa: F401
